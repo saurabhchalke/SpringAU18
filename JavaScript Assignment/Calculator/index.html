@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Simple Calculator</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	  <div class="wrapper">
+      <div class="calculator">
+      <input type="text" id="inputstring" class="calc-screen" value="">
+      <p id="tempoutput" style="text-align: right; font-weight: bold; margin-right: 20px; height: 20px" value=""></p>
+      <table>
+        <tr>
+          <td onclick="insertNum('3.1416')">&pi;</td>
+          <td onclick="insertNum('(')">(</td>
+          <td onclick="insertNum(')')">)</td>
+          <td onclick="clearInput()">C</td>
+        </tr>
+        <tr>
+          <td onclick="insertNum('7')">7</td>
+          <td onclick="insertNum('8')">8</td>
+          <td onclick="insertNum('9')">9</td>
+          <td onclick="insertOp('/')">/</td>
+        </tr>
+        <tr>
+          <td onclick="insertNum('4')">4</td>
+          <td onclick="insertNum('5')">5</td>
+          <td onclick="insertNum('6')">6</td>
+          <td onclick="insertOp('*')">x</td>
+        </tr>
+        <tr>
+          <td onclick="insertNum('1')">1</td>
+          <td onclick="insertNum('2')">2</td>
+          <td onclick="insertNum('3')">3</td>
+          <td onclick="insertOp('-')">-</td>
+        </tr>
+        <tr>
+          <td onclick="insertNum('0')">0</td>
+          <td onclick="insertNum('.')">.</td>
+          <td onclick="evalInput()">=</td>
+          <td onclick="insertOp('+')">+</td>	
+        </tr>
+      </table>
+    </div>
+  </div>
+  <script type="text/javascript" src="calclogic.js"></script>
+</body>
+</html>
