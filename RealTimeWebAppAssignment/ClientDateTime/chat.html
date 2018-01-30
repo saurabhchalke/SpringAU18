@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>local chat</title>
+
+</head>
+<body >
+<h1>Current Time</h1>
+ <p><label id="time" > </p>
+
+ <br>
+ <button id="editButton" >Edit</button>
+	<input type="number" id="hh" value=0> hh 
+	<input type="number" id="mm" value=0> mm 
+	<input type="number" id="ss" value=0> ss 
+ <br><br><br>
+ <button id="reset" >Reset</button>
+ 
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+<script>
+var socket = io.connect();
+
+socket.on('timer', function (data) { 
+	let timer = new Date(data);
+	var h = timer.getHours();
+	var m = timer.getMinutes();
+	var s = timer.getSeconds();
+	m = checkTime(m);
+	s = checkTime(s);
+	document.getElementById('time').innerHTML = h + ":" + m + ":" + s;
+    $('#counter').html(data.countdown);
+});
+
+$('#reset').click(function() {
+    socket.emit('reset');
+});
+
+$('#editButton').click(function() {
+	var myDate = new Date();
+	myDate.setHours(document.getElementById('hh').value);
+	myDate.setMinutes(document.getElementById('mm').value);
+	myDate.setSeconds(document.getElementById('ss').value);
+	socket.emit('changeTime',myDate);
+});
+
+function checkTime(i) {
+ if (i < 10) {i = "0" + i}; 
+ return i;
+}
+
+</script>
+</body>
+</html>

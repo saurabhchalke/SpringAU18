@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>local chat</title>
+<style type="text/css">
+body{
+font-weight: 400;
+font-family: sans-serif;
+}
+h1{
+font-weight: 300;
+color: green;
+text-align: center;
+font-size: 24px;
+}
+#contentWrap{
+display: none;
+}
+#chatWrap{
+padding: 10px;
+border: 2px solid black;
+width: 300px;
+box-sizing: border-box;
+background: lightyellow;
+float: left
+}
+#chat{
+overflow-y: scroll;
+height: 500px;
+border: 1px solid green;
+width: 275px;
+background: white;
+padding: 0 10px;
+box-sizing: border-box;
+margin-bottom: 30px;
+}
+#chat ul{
+list-style-type: none;
+padding: 0;
+display: inline-block;
+ 
+}
+#chat ul li{
+padding: 4px;
+box-sizing: border-box;
+border: 1px solid blue;
+background: lightblue;
+margin: 1px 0;
+font-size: 14px;
+width: 250px;
+}
+#chat ul li b{
+border-right: 2px solid #000;
+margin: 0 5px 0 0;
+}
+#chatWrap form input{
+height: 15px;
+margin: 5px;
+padding: 5px 5px;
+width: 250px;
+padding: 10px;
+box-sizing: border-box;
+}
+#contentWrap #users{
+margin-left: 320px;
+width: 200px;
+border: 1px solid black;
+background: linear-gradient(120deg, #eee, #fff);
+ 
+}
+ 
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Hey I am <span id="user"></span></h1>
+    <div style="text-align: center">
+    <div>To User : - <span id="toUser"></span> </div>
+    <div id="nickWrap">
+    	<br><br>
+        <h2>Enter a username:</h2>
+        <form id="setNick">
+            <input size="35" type="text" id="nickname" class="form-control" type="text" />
+            <p id="error"></p>
+            <br><br>
+            <input type="submit" value="Enter chatroom" />
+        </form>
+    </div>
+    <div id="contentWrap">
+        <div id="chatWrap">
+            <div id="chat">
+                <ul id="cht"></ul>
+            </div>
+            <form id="send-message">
+                <input type="text" id="message" placeholder="your message" />
+            </form>
+        </div>
+        <div id="users">
+
+        </div>
+    </div>
+	</div>
+ 
+<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+<script>
+jQuery(function ($) {
+	var socket = io.connect();
+	var $nickForm = $('#setNick');
+	var $nickError = $('#error');
+	var $nickBox = $('#nickname');
+	var $users = $('#users');
+	var $messageForm = $('#send-message');
+	var $messageBox = $('#message');
+	var $chat = $('#cht');
+	var $toUser = $("#toUser");
+	var $thisUser = $("#user");
+	var thisUser = "";
+	var toUser = "";
+	$("#users ").click((data)=>{
+		let name = data.target.textContent;
+		toUser = name.trim();
+		$chat.html('');
+		$("#toUser").html(name);
+	})
+	$nickForm.submit(function (e) {
+		e.preventDefault();
+		thisUser = $nickBox.val();
+		$thisUser.html(thisUser);
+		
+		socket.emit('new user', $nickBox.val(), function (data) {
+			if (data) {
+				$('#nickWrap').hide();
+				$('#contentWrap').show();
+				//$thisUser.html($nickBox.val());
+			} else {
+				$nickError.html('sorry, that username has been taken, try another one!');
+			}
+		});
+		$nickBox.val('');
+	});
+	$messageForm.submit(function (e) {
+		e.preventDefault();
+		let d = {};
+		d.to = toUser
+		d.msg = $messageBox.val();
+		console.log(d);
+		socket.emit('send message',d);
+		$chat.append(`<li style="text-align:'right'"><b> [${thisUser}] </b> ${d.msg} </li><br />`);
+		$messageBox.val('');
+	});
+	socket.on('usernames', function (data) {
+		var html = '<h2>online users:</h2><hr />';
+		html += "<ol>";
+		for (i = 0; i < data.length; i++) {
+			if(data[i]!=thisUser)
+			   { html += "<li> " + data[i] + "</li>"};
+		}
+		html += "</ol>"
+		$users.html(html);
+	});
+	socket.on('new message', function (data) {
+		$chat.append("<li><b>" + data.from + " </b>" + data.msg + "</li><br />");
+	});
+})
+</script>
+</body>
+</html>
