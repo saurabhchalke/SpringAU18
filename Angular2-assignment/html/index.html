@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <br>
+  <h2>Javascript Assignment</h2>
+  <br>
+  <input class="coupon_question" type="checkbox" name="coupon_question" value="1" onchange="valueChanged()" checked/> Check for name mode and uncheck for number mode
+  <br><br>
+    <div class="form-group">
+      <label for="usr">Name:</label>
+      <input type="text" id="input" name="input" class="form-control">
+    </div>
+    <div style="text-align:center" id="gender" class="radioButtons">
+      <label class="radio-inline"><input type="radio" name="optradio" value="male">Male</label>
+      <label class="radio-inline"><input type="radio" name="optradio" value="female">Female</label>
+      <label class="radio-inline"><input type="radio" name="optradio" value="other">Other</label>
+    </div>
+    <br><br>
+    <div style="text-align:center">
+    <button type="button" id="button" class="btn btn-primary" onclick="setOutput()">Submit</button>
+    </div>
+  <br><br>
+  <h2 id="output" style="text-align: center" class="displayMessage"></h2>
+  <br>
+  <br>
+  <div class="displayTable">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Serial Number</th>
+        <th>Name</th>
+        <th>Gender</th>
+        <th>Comment</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td id="tableName">kmfklsmf</td>
+        <td id="tableGender">kndsjkn</td>
+        <td id="tableComment">kjndskjn</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+<script type="text/javascript" src="../js/output.js"></script>
+<script type="text/javascript">
+  $(".displayTable").hide();
+</script>
+</body>
+</html>
